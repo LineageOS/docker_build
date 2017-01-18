@@ -46,5 +46,8 @@ USER lineage
 VOLUME /lineage/
 
 USER lineage
-WORKDIR /lineage/
+WORKDIR /tmp/
 ENV USER lineage
+
+RUN wget https://jenkins.lineageos.org/jnlpJars/slave.jar
+ENTRYPOINT java -jar slave.jar -jnlpUrl https://jenkins.lineageos.org/computer/phenom/slave-agent.jnlp -secret $JENKINS_AUTH_TOKEN
