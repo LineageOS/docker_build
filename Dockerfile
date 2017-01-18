@@ -37,17 +37,21 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 
 
 
-# Repo tool
+# Add tools
 ADD https://commondatastorage.googleapis.com/git-repo-downloads/repo /usr/local/bin/
+ADD https://jenkins.lineageos.org/jnlpJars/slave.jar /usr/local/bin/
 RUN chmod 755 /usr/local/bin/*
 
+# Add s6-overlay
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.11.0.1/s6-overlay-amd64.tar.gz /tmp/
+RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
+
 # Add user
-USER lineage
+RUN useradd lineage --home-dir=/opt/lineage && mkdir /opt/lineage
+
+#Add /lineage volume
 VOLUME /lineage/
 
-USER lineage
-WORKDIR /tmp/
-ENV USER lineage
+COPY /root /
 
-RUN wget https://jenkins.lineageos.org/jnlpJars/slave.jar
-ENTRYPOINT java -jar slave.jar -jnlpUrl https://jenkins.lineageos.org/computer/phenom/slave-agent.jnlp -secret $JENKINS_AUTH_TOKEN
+ENTRYPOINT ["/init"]
