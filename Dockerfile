@@ -49,8 +49,9 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 # Add user
 RUN useradd lineage --home-dir=/opt/lineage && mkdir /opt/lineage
 
-#Add /lineage volume
+#Add /lineage and /ccache volumes
 VOLUME /lineage/
+VOLUME /ccache/
 
 COPY /root /
 
