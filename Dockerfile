@@ -7,6 +7,9 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get -y --no-install-recommends install \
     openjdk-8-jdk \
     python \
+    bc \
+    yasm \
+    rsync \
     schedtool \
     imagemagick \
     git-core \
